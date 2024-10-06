@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import UserTable from './tables/UserTable';
 import AddUserForm from './forms/AddUser';
 import EditUserForm from './forms/EditUser';
@@ -6,42 +6,49 @@ import './App.css';
 
 const App = () => {
     const usersData = [
-        {id: 1, name: 'Tania', username: 'floppydiskette'},
-        {id: 2, name: 'Craig', username: 'siliconeidolon'},
-        {id: 3, name: 'Ben', username: 'benisphere'},
+        { id: 1, name: 'Tania', username: 'floppydiskette', phonenumber: '123-456-7890', age: 29 },
+        { id: 2, name: 'Craig', username: 'siliconeidolon', phonenumber: '987-654-3210', age: 35 },
+        { id: 3, name: 'Ben', username: 'benisphere', phonenumber: '555-555-5555', age: 40 },
     ];
-    const initialFormState = {id: null, name: '', username: ''};
-    const [currentUser, setCurrentUser] = useState(initialFormState);
 
+    const initialFormState = { id: null, name: '', username: '', phonenumber: '', age: '' };
+    const [currentUser, setCurrentUser] = useState(initialFormState);
     const [users, setUsers] = useState(usersData);
     const [editing, setEditing] = useState(false);
 
-    const editRow = user => {
+    const editRow = (user) => {
         setEditing(true);
-        setCurrentUser({id: user.id, name: user.name, username: user.username})
+        setCurrentUser({
+            id: user.id,
+            name: user.name,
+            username: user.username,
+            phonenumber: user.phonenumber,
+            age: user.age,
+        });
     };
 
-    const addUser = user => {
+    const addUser = (user) => {
         user.id = users.length + 1;
-        setUsers([...users, user])
+        setUsers([...users, user]);
     };
 
-    const deleteUser = id => {
-        setUsers(users.filter(user => user.id !== id))
+    const deleteUser = (id) => {
+        setUsers(users.filter((user) => user.id !== id));
     };
 
     const updateUser = (id, updatedUser) => {
-        setEditing(false)
-        setUsers(users.map(user => (user.id === id ? updatedUser : user)))
-    }
+        setEditing(false);
+        setUsers(users.map((user) => (user.id === id ? updatedUser : user)));
+    };
+
     return (
         <div className="container">
-            <h1>CRUD App with Hooks</h1>
+            <h1 className="text-center">CRUD App with Hooks</h1>
             <div className="flex-row">
                 <div className="flex-large">
                     {editing ? (
                         <div>
-                            <h2>Edit user</h2>
+                            <h2 className="text-center">Edit user</h2>
                             <EditUserForm
                                 editing={editing}
                                 setEditing={setEditing}
@@ -51,18 +58,18 @@ const App = () => {
                         </div>
                     ) : (
                         <div>
-                            <h2>Add user</h2>
-                            <AddUserForm addUser={addUser}/>
+                            <h2 className="text-center">Add user</h2>
+                            <AddUserForm addUser={addUser} />
                         </div>
                     )}
                 </div>
                 <div className="flex-large">
-                    <h2>View users</h2>
-                    <UserTable users={users} editRow={editRow} deleteUser={deleteUser}/>
+                    <h2 className="text-center">View users</h2>
+                    <UserTable users={users} editRow={editRow} deleteUser={deleteUser} />
                 </div>
             </div>
         </div>
     );
-}
+};
 
 export default App;
